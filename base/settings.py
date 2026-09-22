@@ -28,6 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(",")
 
+print("=== ENV CHECK ===")
+print("ALLOWED_HOSTS =", ALLOWED_HOSTS)
+print("=================")
+
 
 # Application definition
 
