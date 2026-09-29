@@ -22,9 +22,7 @@ async def get_movies():
 async def auth():
     row = await db.fetch_one("SELECT MAX(id) as id FROM users")
     
-    max_id = 0
-    if row is not None:
-        max_id = row['id']+1
+    max_id = (row["id"] or 0) + 1
         
     token = await create_token(max_id)
     
