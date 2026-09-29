@@ -11,9 +11,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-@app("/")
-async def root():
-    raise HTTPException(status_code=404, detail="No such page") 
+
 
 @app.get("/movies")
 async def get_movies():
