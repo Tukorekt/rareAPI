@@ -24,7 +24,7 @@ async def auth():
     
     max_id = (row["id"] or 0) + 1
         
-    token = await create_token(max_id)
+    token = create_token(max_id)
     
     await db.insert(f"INSERT INTO users (token) VALUES ({token})")
     return token
