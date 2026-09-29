@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import Product, BaseModel
+from .models import *
 
-def create_model_serializer(baseModel):
+def create_model_serializer(baseModel: BaseModel):
     fields_list = baseModel.serialized_names()
     
     class ModelSerializer(serializers.ModelSerializer):
@@ -11,5 +11,5 @@ def create_model_serializer(baseModel):
     
     return ModelSerializer
 
-ProductSerializer = create_model_serializer(Product)
+MovieSerializer = create_model_serializer(Movie)
     
