@@ -27,5 +27,10 @@ class Database:
         async with self.pool.acquire() as conn:
             row = await conn.fetchrow(query, *args)
             return dict(row) if row else None
+        
+    async def insert(self, query: str, *args):
+            async with self.pool.acquire() as conn:
+                await conn.execute(query, *args)
+                
 
 db = Database()

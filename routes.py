@@ -1,0 +1,26 @@
+from fastapi import HTTPException
+from db import db
+from main import app
+from security import create_token
+
+@app("/")
+async def root():
+    raise HTTPException(status_code=404, detail="No such page") 
+
+@app.get("/movies")
+async def get_movies():
+    rows = await db.fetch_all("SELECT id, name FROM movies")
+    return rows
+
+@app.get("/auth")
+async def auth():
+    row = await db.fetch_one("SELECT id FROM users WHERE MAX(id)")
+    
+    max_id = 0
+    if row is not None:
+        max_id = row['id']+1
+        
+    token = await create_token(max_id)
+    
+    await db.insert(f"INSERT INTO users (token) VALUES ({token})")
+    return token
