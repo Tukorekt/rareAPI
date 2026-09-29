@@ -20,7 +20,7 @@ async def get_movies():
 
 @app.get("/auth")
 async def auth():
-    row = await db.fetch_one("SELECT id FROM users WHERE MAX(id)")
+    row = await db.fetch_one("SELECT MAX(id) as id FROM users")
     
     max_id = 0
     if row is not None:
