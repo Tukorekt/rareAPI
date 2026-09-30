@@ -1,7 +1,8 @@
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Header
 from db import db
-from security import create_token
+from uuid import UUID
+from routes import *
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -11,20 +12,10 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-
-
 @app.get("/movies")
-async def get_movies():
-    rows = await db.fetch_all("SELECT id, name FROM movies")
-    return rows
+async def get_movies(jwt_token: str = Header(..., alias="X-JWT-Token")):
+    get_movies_imp(jwt_token)
 
 @app.get("/auth")
-async def auth():
-    row = await db.fetch_one("SELECT MAX(id) as id FROM users")
-    
-    max_id = (row["id"] or 0) + 1
-        
-    token = create_token(max_id)
-    
-    await db.insert("INSERT INTO users (token) VALUES ($1)", token)
-    return token
+async def auth(x_device_id: UUID = Header(..., alias="X-Device-Id"),):
+    auth_imp(x_device_id)
