@@ -30,7 +30,7 @@ class Database:
         
     async def insert(self, query: str, *args):
             async with self.pool.acquire() as conn:
-                await conn.execute(query, *args)
+                return await conn.execute(query, *args)
                 
 
 db = Database()
